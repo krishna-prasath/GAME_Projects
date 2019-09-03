@@ -1,0 +1,55 @@
+import os
+import msvcrt
+import time
+list1=[['-',1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
+g=list1.copy()
+count=0
+#list1= [['-',1,2],[3,4,5],[6,7,8]]
+def random(list1):
+    import random
+    random.shuffle(list1)
+    for i in range(len(list1)):
+        random.shuffle(list1[i])
+    for i in range(len(list1)):
+        for j in range(len(list1)):
+            print(list1[i][j],"\t",end="")
+        print("\n")
+    return list1
+li=random(list1)
+while True:
+    pos1=[]
+    for i in range(len(li)):
+        for j in range(len(li[i])):
+            if li[i][j]=="-":
+                pos=[i,j]
+                break
+    if msvcrt.kbhit():
+        count+=1
+        a=msvcrt.getch()
+        if str(a)=="b'w'" and pos[0]-1>=0:
+            pos1=[pos[0]-1,pos[1]]
+        elif str(a)=="b's'" and pos[0]+1<=len(li)-1:
+            pos1=[pos[0]+1,pos[1]]
+        elif str(a)=="b'a'" and pos[1]-1>=0:
+            pos1=[pos[0],pos[1]-1]
+        elif str(a)=="b'd'" and pos[1]+1<=len(li)-1:
+            pos1=[pos[0],pos[1]+1]
+        else:
+            pos1=pos
+            print("invalid move,wait for second")
+            time.sleep(1)
+            count-=1
+        os.system("cls")
+        if(pos[0]+1==pos1[0]and pos[1]==pos1[1])or(pos[0]==pos1[0]and pos[1]+1==pos1[1])or(pos[0]-1==pos1[0]and pos[1]==pos1[1]) or(pos[0]==pos1[0]and pos[1]-1==pos1[1]):
+            li[pos[0]][pos[1]],li[pos1[0]][pos1[1]]=li[pos1[0]][pos1[1]],li[pos[0]][pos[1]]
+
+            
+        for i in range(len(li)):
+            for j in range(len(li)):
+                print(li[i][j],"\t",end="")
+            print("\n")
+        print("Number of moves done",count)
+        if li==g:
+            print("Congrats you won the Game")
+        
+        
